@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cliente Web de API en la Nube</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 25px; background: #f4f6f9; }
+    .card { background: white; padding: 20px; border-radius: 8px; max-width: 500px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    button { background: #2b6cb0; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1a365d; }
+    pre { background: #2d3748; color: #f7fafc; padding: 12px; border-radius: 5px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Consumo de API Cloud en Vivo</h2>
+    <p>Estado del Despliegue Continuo:</p>
+    <button onclick="consultarAPI()">Consultar API en Render</button>
+    <h3>Respuesta del Servidor:</h3>
+    <pre id="resultado">Esperando consulta...</pre>
+  </div>
+
+  <script>
+    // Reemplaza con la URL pública de tu API desplegada en Render
+    // (para probar en local usa: http://localhost:8000)
+    const API_URL = 'https://TU-API.onrender.com';
+
+    async function consultarAPI() {
+      const contenedor = document.getElementById('resultado');
+      contenedor.textContent = 'Conectando con la nube... (si la API estaba dormida puede tardar 40-60 s)';
+      try {
+        const respuesta = await fetch(API_URL + '/version');
+        const datos = await respuesta.json();
+        contenedor.textContent = JSON.stringify(datos, null, 2);
+      } catch (error) {
+        contenedor.textContent = 'Error al conectar con la API: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
